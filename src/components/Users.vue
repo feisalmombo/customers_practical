@@ -10,6 +10,8 @@
     <button v-on:click="makeuser">Make user</button>
     <button v-on:click="deleteUser(user)">X</button>
 
+    {{ fetchUsers() }}
+
   </div>
 </template>
 
@@ -42,8 +44,18 @@ export default {
     },
     deleteUser: function(user) {
       this.users.splice(this.users.indexOf(user), 1);
-    }
-  }
+    },
+    fetchUsers(){
+        this.$http.get('http://localhost/slimapp/api/customers')
+          .then(function(response){
+            this.customers = response.body;
+            console.log(response.body);
+          });
+    },
+  },
+  created: function(){
+      this.fetchUsers();
+    },
 }
 </script>
 
